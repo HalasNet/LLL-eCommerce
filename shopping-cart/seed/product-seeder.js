@@ -1,6 +1,8 @@
 var Product = require('../models/product');
 
-var mongoose = require()
+var mongoose = require('mongoose');
+
+mongoose.connect('localhost:27017/shopping');
 
 var products = [
    new Product({
@@ -26,9 +28,18 @@ new Product({
       title: 'Bracelet',
       description: 'Awesome Bracelet!!!!',
       price: 70
- }),
+ })
 ];
-
+var done = 0;
 for (var i = 0; i < products.length; i++) {
-      products[i].save();
+      products[i].save(function(err, result){
+      done++;
+      if (done === products.length) {
+           exit();
+      }
+      });
+}
+
+function exit() {
+     mongoose.disconnect();
 }
