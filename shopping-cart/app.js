@@ -1,9 +1,9 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
-var cookieParser = require('cookie-parser');
+
 var logger = require('morgan');
+var cookieParser = require('cookie-parser');
 var bodyParser= require('body-parser');
 var expressHbs = require('express-handlebars');
 var mongoose = require('mongoose');
@@ -13,7 +13,8 @@ var routes = require('./routes/index');
 
 var app = express();
 
-mongoose.connect('localhost:27017/shopping');
+mongoose.connect('mongodb://localhost:27017/shopping', { useNewUrlParser: true });
+
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
