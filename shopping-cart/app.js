@@ -1,4 +1,3 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,22 +9,24 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var passport = require('passport');
 var flash = require('connect-flash')
+var validator = require('express-validator');
 
 var routes = require('./routes/index');
 
-
 var app = express();
 
-mongoose.connect('mongodb://localhost:27017/shopping', { useNewUrlParser: true });
 
+mongoose.connect('mongodb://localhost:27017/shopping'  , {useNewUrlParser: true });
+require('./config/passport');
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(validator());
 app.use(cookieParser());
 app.use(session({secret: 'mysupersecret', resave: false, saveUninitialized: false}));
 app.use(flash());
@@ -37,7 +38,9 @@ app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // error handler
