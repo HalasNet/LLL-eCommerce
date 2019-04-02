@@ -1,10 +1,12 @@
+{{# if products }}
 <div class="row">
       <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
        <ul class="list-group">
-         <li class="list-group-item">
-            <span class="badge">2</span>
-            <strong>Title</strong>
-            <span class="label label-success">$12</span>
+             {{# each products }}
+              <li class="list-group-item">
+            <span class="badge">{{ this.qty }}</span>
+            <strong>{{ this.item.title }}</strong>
+            <span class="label label-success">${{ this.price }}</span>
             <div class="btn-group">
             <button class="btn btn-primary btn-xs dropdown-toggle" 
                type="button">Action <span class="caret"></span></span></button>
@@ -14,6 +16,8 @@
               </ul>
             </div>
          </li>
+      {{/each}}
+        
        </ul>      
 
       </div>
@@ -21,7 +25,7 @@
 
 <div class="row">
       <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
-      <strong>Total: </strong>   
+      <strong>Total: {{ totalPrice }}</strong>   
       </div>
 </div>
 <hr>
@@ -30,8 +34,11 @@
       <button type="button" class="btn btn-success">Chekout</button>  
       </div>
 </div>
+{{ else }}
 <div class="row">
       <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
       <h2>No items in cart</h2>   
       </div>
 </div>
+{{/if}}
+
